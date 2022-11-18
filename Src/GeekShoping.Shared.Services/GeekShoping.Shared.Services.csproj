@@ -6,4 +6,13 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <PackageReference Include="AutoMapper" Version="12.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\GeekShooping.Shared.Data\GeekShopping.Shared.Data.csproj" />
+    <ProjectReference Include="..\GeekShopping.Shared.Domain\GeekShopping.Shared.Domain.csproj" />
+  </ItemGroup>
+
 </Project>

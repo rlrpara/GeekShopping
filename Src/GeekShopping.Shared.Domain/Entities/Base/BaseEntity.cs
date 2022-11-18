@@ -9,6 +9,10 @@ public class BaseEntity
     public long Codigo { get; set; }
 
     [Nota]
+    [Column(name: "X_ATIVO", Order = 198)]
+    public bool Ativo { get; set; }
+
+    [Nota]
     [Column(name: "DATA_CADASTRO", Order = 199)]
     public DateTime? DataCadastro { get; set; }
 

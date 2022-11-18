@@ -16,10 +16,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Repositories\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\GeekShopping.Shared.Domain\GeekShopping.Shared.Domain.csproj" />
   </ItemGroup>
 
