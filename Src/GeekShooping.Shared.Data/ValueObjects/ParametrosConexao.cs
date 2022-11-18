@@ -1,6 +1,4 @@
-﻿using GeekShopping.Shared.Data.Enumerables;
-
-namespace GeekShopping.Shared.Data.ValueObjects;
+﻿namespace GeekShopping.Shared.Data.ValueObjects;
 
 public class ParametrosConexao
 {
