@@ -1,50 +1,102 @@
+using GeekShopping.Shared.Auth;
 using GeekShopping.Shared.Database;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
+using Microsoft.OpenApi.Models;
+using System.Text;
+using System.Text.Json.Serialization;
 
-namespace GeekShopping.ProductApi
+namespace GeekShopping.ProductApi;
+
+public class Program
 {
-    public class Program
+    public static void Main(string[] args)
     {
-        public static void Main(string[] args)
+        DotEnvLoad.Load();
+
+        var builder = WebApplication.CreateBuilder(args);
+        builder.Services.AddCors();
+        builder.Services.AddControllers()
+            .AddJsonOptions(x => { x.JsonSerializerOptions.DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull; })
+            .AddNewtonsoftJson(x => { x.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore; });
+        builder.Services.AddAuthorization();
+        builder.Services.AddEndpointsApiExplorer();
+        builder.Services.AddSwaggerGen(x =>
         {
-            DotEnvLoad.Load();
-
-            var builder = WebApplication.CreateBuilder(args);
-
-            builder.Services.AddAuthorization();
-            builder.Services.AddEndpointsApiExplorer();
-            builder.Services.AddSwaggerGen();
-            new DatabaseConfiguration().GerenciarBanco();
-
-            var app = builder.Build();
-
-            if (app.Environment.IsDevelopment())
+            x.SwaggerDoc("v1", new OpenApiInfo
             {
-                app.UseSwagger();
-                app.UseSwaggerUI();
-            }
-
-            app.UseAuthorization();
-
-            var summaries = new[]
+                Title = "Geek Shopping",
+                Version = "v1",
+                Description = "Loja virtual de produtos geek",
+                Contact = new OpenApiContact
+                {
+                    Name = "Rodrigo Lima",
+                    Email = "rodrigo.ribeiro@questores.com.br",
+                    Url = new Uri("http://www.rodrigolima.com.br")
+                }
+            });
+            x.IncludeXmlComments(Path.Combine(AppContext.BaseDirectory, "api-doc.xml"));
+            var jwtSecurityScheme = new OpenApiSecurityScheme
             {
-            "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
-        };
+                BearerFormat = "JWT",
+                Name = "JWT Authentication",
+                In = ParameterLocation.Header,
+                Type = SecuritySchemeType.Http,
+                Scheme = JwtBearerDefaults.AuthenticationScheme,
+                Description = "Informe **_APENAS_** seu JWT Bearer token na caixa abaixo.",
 
-            app.MapGet("/weatherforecast", (HttpContext httpContext) =>
+                Reference = new OpenApiReference
+                {
+                    Id = JwtBearerDefaults.AuthenticationScheme,
+                    Type = ReferenceType.SecurityScheme
+                }
+            };
+
+            x.AddSecurityDefinition(jwtSecurityScheme.Reference.Id, jwtSecurityScheme);
+            x.AddSecurityRequirement(new OpenApiSecurityRequirement { { jwtSecurityScheme, Array.Empty<string>() } });
+        });
+
+        builder.Services.AddAuthentication(x =>
+        {
+            x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+            x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+        }).AddJwtBearer(x =>
+        {
+            x.RequireHttpsMetadata = false;
+            x.SaveToken = true;
+            x.TokenValidationParameters = new TokenValidationParameters
             {
-                var forecast = Enumerable.Range(1, 5).Select(index =>
-                    new WeatherForecast
-                    {
-                        Date = DateTime.Now.AddDays(index),
-                        TemperatureC = Random.Shared.Next(-20, 55),
-                        Summary = summaries[Random.Shared.Next(summaries.Length)]
-                    })
-                    .ToArray();
-                return forecast;
-            })
-            .WithName("GetWeatherForecast");
+                ValidateIssuerSigningKey = true,
+                IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(ConfigAuth.Secret)),
+                ValidateIssuer = false,
+                ValidateAudience = false
+            };
+        });
 
-            app.Run();
+        new DatabaseConfiguration().GerenciarBanco();
+
+        var app = builder.Build();
+
+        if (app.Environment.IsDevelopment())
+        {
+            app.UseSwagger();
         }
+        app.UseSwaggerUI();
+
+        app.UseCors(x =>
+        {
+            x.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader();
+        });
+
+        app.UseRouting();
+
+        app.UseAuthorization();
+
+        app.UseEndpoints(endpoints =>
+        {
+            endpoints.MapControllers();
+        });
+
+        app.Run();
     }
 }
