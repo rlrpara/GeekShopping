@@ -13,8 +13,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\GeekShoping.Shared.Services\GeekShoping.Shared.Services.csproj" />
     <ProjectReference Include="..\GeekShopping.Shared.Database\GeekShopping.Shared.Database.csproj" />
+    <ProjectReference Include="..\GeekShopping.Shared.Data\GeekShopping.Shared.Data.csproj" />
+    <ProjectReference Include="..\GeekShopping.Shared.Services\GeekShopping.Shared.Services.csproj" />
   </ItemGroup>
 
 </Project>
