@@ -27,7 +27,7 @@ namespace GeekShoping.Shared.Services.Service
 
         #region [Metodos Publicos]
         public int ObterTotalRegistros(filtroProductViewModel filtro) => _mapper.Map<int>(_service.TotalRegistros(_mapper.Map<filtroProduct>(filtro)).Result);
-        public ProductViewModel ObterPorCodigo(long codigo) => _mapper.Map<ProductViewModel>(_service.ObterPorCodigo(codigo).Result);
+        public ProductViewModel ObterPorCodigo(long codigo) => _mapper.Map<ProductViewModel>(_service.ObterPorCodigo((int)codigo).Result);
         public IEnumerable<ProductViewModel> ObterTodos(filtroProductViewModel filtro) => _mapper.Map<IEnumerable<ProductViewModel>>(_service.ObterTodos(_mapper.Map<filtroProduct>(filtro)).Result);
         public bool ObterEntidade(ProductViewModel model) => _service.ObterEntidade(_mapper.Map<Product>(model)).Result;
         public bool Inserir(ProductViewModel model) => _service.Inserir(_mapper.Map<Product>(model)).Result;

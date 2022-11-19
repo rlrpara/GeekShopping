@@ -8,8 +8,8 @@ namespace GeekShopping.Shared.Domain.Interface
         Task<Product> ObterPorCodigo(int codigo);
         Task<int> TotalRegistros(filtroProduct filtro);
         Task<IEnumerable<Product>> ObterTodos(filtroProduct filtro);
-        Task<bool> ObterEntidade(Product Product);
-        Task<bool> Inserir(Product Product);
-        Task<bool> Atualizar(Product Product);
+        Task<bool> ObterEntidade(Product product);
+        Task<bool> Inserir(Product product);
+        Task<bool> Atualizar(Product product);
     }
 }

@@ -7,54 +7,51 @@ namespace GeekShopping.Shared.Data.Repositories
 {
     public class ProductRepository : BaseRepository, IProductRepository
     {
-        #region [Propriedades Privadas]
+        #region [Private Properties]
         private readonly IBaseRepository _baseRepository;
         #endregion
 
-        #region [Métodos Privados]
+        #region [Private Methods]
         private string ObterFiltros(filtroProduct filtro)
         {
             var sqlPesquisa = new StringBuilder();
 
-            sqlPesquisa.AppendLine($" WHERE email ILIKE '%{filtro.Email}%'");
-            sqlPesquisa.AppendLine($"   AND nome ilike '%{filtro.Nome}%'");
+            sqlPesquisa.AppendLine($" WHERE name like '%{filtro.Name}%'");
 
             return sqlPesquisa.ToString();
         }
         #endregion
 
-        #region [Construtor]
+        #region [Constructor]
         public ProductRepository(IBaseRepository baseRepository) => _baseRepository = baseRepository;
         #endregion
 
-        public Task<bool> Atualizar(Product Product)
+        #region [Public Methods]
+        public async Task<int> TotalRegistros(filtroProduct filtro)
         {
-            throw new NotImplementedException();
-        }
+            var sqlPesquisa = new StringBuilder();
 
-        public Task<bool> Inserir(Product Product)
-        {
-            throw new NotImplementedException();
-        }
+            sqlPesquisa.AppendLine($"SELECT COUNT(ID) as Total");
+            sqlPesquisa.AppendLine($"  FROM prouct");
+            sqlPesquisa.AppendLine(ObterFiltros(filtro));
 
-        public Task<bool> ObterEntidade(Product Product)
-        {
-            throw new NotImplementedException();
+            return await _baseRepository.BuscarPorQueryAsync<int>(sqlPesquisa.ToString());
         }
+        public async Task<Product> ObterPorCodigo(int Codigo) => await _baseRepository.BuscarPorIdAsync<Product>(Codigo);
+        public async Task<bool> ObterEntidade(Product product)
+        {
+            var sqlPesquisa = new StringBuilder();
 
-        public Task<Product> ObterPorCodigo(int codigo)
-        {
-            throw new NotImplementedException();
-        }
+            sqlPesquisa.AppendLine($" (nome = '{product.Name}')");
+            sqlPesquisa.AppendLine($"   AND id = {product.Codigo}");
 
-        public Task<IEnumerable<Product>> ObterTodos(filtroProduct filtro)
-        {
-            throw new NotImplementedException();
+            return await _baseRepository.BuscarPorQueryGeradorAsync<Product>(sqlPesquisa.ToString()) is not null;
         }
+        public async Task<IEnumerable<Product>> ObterTodos(filtroProduct filtro)
+            =>  await _baseRepository.BuscarTodosPorQueryGeradorAsync<Product>($" WHERE name like '%{filtro.Name}%'");
+        public async Task<bool> Atualizar(Product product) => await _baseRepository.AtualizarAsync((int)product.Codigo, product) > 0;
+        public async Task<bool> Inserir(Product product) => await _baseRepository.AdicionarAsync(product) > 0;
 
-        public Task<int> TotalRegistros(filtroProduct filtro)
-        {
-            throw new NotImplementedException();
-        }
+        #endregion
     }
 }
