@@ -15,10 +15,6 @@ public class GeradorDapper : IGeradorDapper
     private ParametrosConexao _parametrosConexao;
     #endregion
 
-    #region [Construtor]
-    public GeradorDapper(ParametrosConexao parametrosConexao) => _parametrosConexao = parametrosConexao;
-    #endregion
-
     #region Métodos Privados
     private Nota? ObterAtributoNota(PropertyInfo x) => x.GetCustomAttribute(typeof(Nota)) as Nota;
     private IEnumerable<PropertyInfo> ObterListaPropriedadesClasse<T>(T entidade = null) where T : class
@@ -155,6 +151,10 @@ public class GeradorDapper : IGeradorDapper
                 break;
         }
     }
+    #endregion
+
+    #region [Construtor]
+    public GeradorDapper(ParametrosConexao parametrosConexao) => _parametrosConexao = parametrosConexao;
     #endregion
 
     #region Métodos Públicos

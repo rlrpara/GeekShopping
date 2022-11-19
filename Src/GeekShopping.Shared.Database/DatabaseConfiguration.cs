@@ -18,15 +18,6 @@ public class DatabaseConfiguration : DatabaseConfigurationBase, IDatabaseConfigu
     private string? _errorMessage;
     #endregion
 
-    #region [Construtor]
-    public DatabaseConfiguration()
-    {
-        _parametrosConexao = ObterParametrosConexao();
-        _geradorDapper = new GeradorDapper(_parametrosConexao);
-        _errorMessage = null;
-    }
-    #endregion
-
     #region [Métodos Privados]
     private ParametrosConexao ObterParametrosConexao(bool RemoverNomeBanco = false) => new()
     {
@@ -211,6 +202,15 @@ public class DatabaseConfiguration : DatabaseConfigurationBase, IDatabaseConfigu
         }
     }
 
+    #endregion
+
+    #region [Construtor]
+    public DatabaseConfiguration()
+    {
+        _parametrosConexao = ObterParametrosConexao();
+        _geradorDapper = new GeradorDapper(_parametrosConexao);
+        _errorMessage = null;
+    }
     #endregion
 
     #region Métodos Públicos
