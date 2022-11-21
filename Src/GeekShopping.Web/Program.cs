@@ -1,32 +1,38 @@
-namespace GeekShopping.Web
+using GeekShopping.Web.Services;
+using GeekShopping.Web.Services.IServices;
+
+namespace GeekShopping.Web;
+
+public class Program
 {
-    public class Program
+    public static void Main(string[] args)
     {
-        public static void Main(string[] args)
+        var builder = WebApplication.CreateBuilder(args);
+
+        // Add services to the container.
+        builder.Services.AddControllersWithViews();
+        builder.Services.AddHttpClient<IProductService, ProductService>(props =>
         {
-            var builder = WebApplication.CreateBuilder(args);
+            props.BaseAddress = new Uri(builder.Configuration["ServiceUrls:ProductAPI"]);
+        });
 
-            // Add services to the container.
-            builder.Services.AddControllersWithViews();
+        var app = builder.Build();
 
-            var app = builder.Build();
-
-            // Configure the HTTP request pipeline.
-            if (!app.Environment.IsDevelopment())
-            {
-                app.UseExceptionHandler("/Home/Error");
-            }
-            app.UseStaticFiles();
-
-            app.UseRouting();
-
-            app.UseAuthorization();
-
-            app.MapControllerRoute(
-                name: "default",
-                pattern: "{controller=Home}/{action=Index}/{id?}");
-
-            app.Run();
+        // Configure the HTTP request pipeline.
+        if (!app.Environment.IsDevelopment())
+        {
+            app.UseExceptionHandler("/Home/Error");
         }
+        app.UseStaticFiles();
+
+        app.UseRouting();
+
+        app.UseAuthorization();
+
+        app.MapControllerRoute(
+            name: "default",
+            pattern: "{controller=Home}/{action=Index}/{id?}");
+
+        app.Run();
     }
 }
