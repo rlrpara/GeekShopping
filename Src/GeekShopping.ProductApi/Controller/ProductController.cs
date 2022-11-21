@@ -10,7 +10,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace GeekShopping.ProductApi.Controller;
 
-[Route("api/[controller]")]
+[Route("api/v1/[controller]")]
 [ApiController]
 public class ProductController : ControllerBase
 {
