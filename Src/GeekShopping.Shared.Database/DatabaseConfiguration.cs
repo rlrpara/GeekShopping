@@ -22,7 +22,7 @@ public class DatabaseConfiguration : DatabaseConfigurationBase, IDatabaseConfigu
     private ParametrosConexao ObterParametrosConexao(bool RemoverNomeBanco = false) => new()
     {
         Servidor = Environment.GetEnvironmentVariable("SERVIDOR"),
-        NomeBanco = RemoverNomeBanco ? "" : Environment.GetEnvironmentVariable("BANCO").ToLower(),
+        NomeBanco = RemoverNomeBanco ? "" : Environment.GetEnvironmentVariable("BANCO")?.ToLower(),
         Porta = Environment.GetEnvironmentVariable("PORTA"),
         Usuario = Environment.GetEnvironmentVariable("USUARIO"),
         Senha = Environment.GetEnvironmentVariable("SENHA"),
@@ -55,18 +55,6 @@ public class DatabaseConfiguration : DatabaseConfigurationBase, IDatabaseConfigu
                 sqlPessquisa.AppendLine($"    END IF; ");
                 sqlPessquisa.AppendLine($"END");
                 break;
-            case ETipoBanco.SqlServer:
-                sqlPessquisa.AppendLine($"");
-                break;
-            case ETipoBanco.Firebird:
-                sqlPessquisa.AppendLine($"");
-                break;
-            case ETipoBanco.Postgresql:
-                sqlPessquisa.AppendLine($"");
-                break;
-            case ETipoBanco.SqLite:
-                sqlPessquisa.AppendLine($"");
-                break;
             default:
                 sqlPessquisa.AppendLine($"");
                 break;
@@ -87,8 +75,6 @@ public class DatabaseConfiguration : DatabaseConfigurationBase, IDatabaseConfigu
             case ETipoBanco.SqlServer:
                 sqlPesquisa.AppendLine($"CREATE DATABASE {_parametrosConexao.NomeBanco};");
                 break;
-            case ETipoBanco.Firebird:
-                break;
             case ETipoBanco.Postgresql:
                 sqlPesquisa.AppendLine($"CREATE DATABASE {_parametrosConexao.NomeBanco};");
                 break;
@@ -99,6 +85,7 @@ public class DatabaseConfiguration : DatabaseConfigurationBase, IDatabaseConfigu
                 sqlPesquisa.AppendLine($"");
                 break;
             default:
+                sqlPesquisa.AppendLine($"");
                 break;
         }
         return sqlPesquisa.ToString();
@@ -119,8 +106,6 @@ public class DatabaseConfiguration : DatabaseConfigurationBase, IDatabaseConfigu
                 sqlPesquisa.AppendLine($"  FROM MASTER.DBO.SYSDATABASES");
                 sqlPesquisa.AppendLine($"WHERE NAME = N'{_parametrosConexao.NomeBanco}'");
                 break;
-            case ETipoBanco.Firebird:
-                break;
             case ETipoBanco.Postgresql:
                 sqlPesquisa.AppendLine($"SELECT DATNAME");
                 sqlPesquisa.AppendLine($"  FROM PG_DATABASE");
@@ -136,6 +121,7 @@ public class DatabaseConfiguration : DatabaseConfigurationBase, IDatabaseConfigu
                     sqlPesquisa.AppendLine($"SELECT 1;");
                 break;
             default:
+                sqlPesquisa.AppendLine($"");
                 break;
         }
 
