@@ -37,14 +37,31 @@ namespace GeekShopping.Web.Controllers
             if (ModelState.IsValid)
             {
                 var response = await _productService.Insert(productModel);
-
                 if(response) return RedirectToAction(nameof(ProductIndex));
-
             }
-
             return View(productModel);
         }
 
+        [HttpGet("{id}")]
+        public async Task<IActionResult> ProductUpdate(int id)
+        {
+            var product = await _productService.GetById(id);
+
+            if(product is not null) return View(product);
+
+            return NotFound();
+        }
+
+        [HttpPut]
+        public async Task<IActionResult> ProductUpdate(ProductModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                var response = await _productService.Update(model);
+                if (response) return RedirectToAction(nameof(ProductIndex));
+            }
+            return View(model);
+        }
 
         #endregion
 

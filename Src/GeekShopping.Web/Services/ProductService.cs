@@ -26,10 +26,11 @@ public class ProductService : IProductService
 
         return result.dados;
     }
-    public async Task<ProductModel> GetById(long codigo)
+    public async Task<ProductModel> GetById(int codigo)
     {
-        var response = await _httpClient.GetAsync($"{_basePath}/{codigo}");
-        return await response.ReadContentAs<ProductModel>();
+        var response = await _httpClient.GetAsync($"{_basePath}/getbyid/{codigo}");
+        var teste = await response.ReadContentAs<ApiResult<ProductModel>>();
+        return teste.dados.FirstOrDefault();
     }
     public async Task<bool> Insert(ProductModel model)
     {
@@ -38,12 +39,12 @@ public class ProductService : IProductService
     }
     public async Task<bool> Update(ProductModel model)
     {
-        var response = await _httpClient.PutAsJson(_basePath, model);
+        var response = await _httpClient.PutAsJson($"{_basePath}/update", model);
         return await response.ReadContentAs<bool>();
     }
     public async Task<bool> RemoveById(int codigo)
     {
-        var response = await _httpClient.DeleteAsync($"{_basePath}/{codigo}");
+        var response = await _httpClient.DeleteAsync($"{_basePath}/remove/{codigo}");
         return await response.ReadContentAs<bool>();
     }
     

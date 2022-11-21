@@ -52,6 +52,20 @@ public class ProductController : ControllerBase
         return Ok(resultado);
     }
 
+    [HttpGet("GetById/{codigo}")]
+    public IActionResult GetById(int codigo)
+    {
+        var dadosRetorno = _service.ObterPorCodigo(codigo);
+
+        if (dadosRetorno is null)
+            return Ok(new { Resultado = "Registro não encontrado." });
+
+        var resultado = new ApiResult<ProductViewModel>();
+        resultado.AddPaginacao(1, 1, 1, 1, new List<ProductViewModel>() { dadosRetorno });
+
+        return Ok(resultado);
+    }
+
     [HttpPost("Insert")]
     public IActionResult PostInsert([FromBody] ProductViewModel model)
     {

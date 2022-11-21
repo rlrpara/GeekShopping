@@ -5,7 +5,7 @@ namespace GeekShopping.Web.Services.IServices;
 
 public interface IProductService
 {
-    Task<ProductModel> GetById(long codigo);
+    Task<ProductModel> GetById(int codigo);
     Task<IEnumerable<ProductModel>?> GetAll(filterProductModel filtro);
     Task<bool> Insert(ProductModel model);
     Task<bool> Update(ProductModel model);

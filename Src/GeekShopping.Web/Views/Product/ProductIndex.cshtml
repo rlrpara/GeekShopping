@@ -1,4 +1,4 @@
-﻿@model IEnumerable<ProductModel>
+﻿@model IEnumerable<GeekShopping.Web.Models.ProductModel>
 
 <br />
 <br />
@@ -17,6 +17,7 @@
     <table class="table">
         <thead>
             <tr>
+                <td>Codigo</td>
                 <td>Name</td>
                 <td>Category</td>
                 <td>Price</td>
@@ -28,12 +29,13 @@
             foreach(var item in Model)
             {
                 <tr>
+                    <td>@item.Codigo</td>
                     <td>@item.Name</td>
                     <td>@item.CategoryName</td>
                     <td>@((item.Price).ToString("c"))</td>
                     <td>
-                        <a asp-action="ProductEdit" class="btn btn-success" asp-asp-route="@item.Codigo"><i class="fas fa-edit"></i></a>
-                        <a asp-action="ProductEdit" class="btn btn-danger" asp-asp-route="@item.Codigo"><i class="fas fa-trash"></i></a>
+                        <a asp-action="ProductUpdate" class="btn btn-success" asp-route-id="@item.Codigo"><i class="fas fa-edit"></i></a>
+                        <a asp-action="ProductRemove" class="btn btn-danger" asp-route-id="@item.Codigo"><i class="fas fa-trash"></i></a>
                     </td>
                 </tr>
             }    

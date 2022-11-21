@@ -13,7 +13,7 @@ namespace GeekShopping.Shared.Domain.Entities
         public string? Name { get; set; }
 
         [Nota]
-        [Required]
+        [Required(ErrorMessage = "Informe um valor.")]
         [Column(name: "PRICE", Order = 3)]
         public decimal Price { get; set; }
 
