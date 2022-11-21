@@ -2,7 +2,7 @@
 {
     public class filtroPaginacao
     {
-        public int PaginaAtual { get; set; } = 1;
-        public int QuantidadePorPagina { get; set; } = 50;
+        public int ActualPage { get; set; }
+        public int QuantityPerPage { get; set; }
     }
 }

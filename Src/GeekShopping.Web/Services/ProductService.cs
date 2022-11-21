@@ -19,10 +19,19 @@ public class ProductService : IProductService
     #endregion
 
     #region [Public Methods]
-    public async Task<IEnumerable<ProductModel>> GetAll(filterProductModel filtro)
+    public async Task<IEnumerable<ProductModel>?> GetAll(filterProductModel filtro)
     {
-        var response = await _httpClient.PostAsJson(_basePath, filtro);
-        return await response.ReadContentAs<IEnumerable<ProductModel>>();
+        try
+        {
+            var response = await _httpClient.PostAsJson($"{_basePath}/getall", filtro);
+            var result =  await response.ReadContentAs<ApiResult<ProductModel>>();
+
+            return result.Dados;
+        }
+        catch (Exception ex)
+        {
+            throw;
+        }
     }
     public async Task<ProductModel> GetById(long codigo)
     {

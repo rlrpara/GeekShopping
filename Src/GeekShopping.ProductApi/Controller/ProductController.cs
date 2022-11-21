@@ -22,8 +22,8 @@ public class ProductController : ControllerBase
     #region [Métodos Privados]
     private int ObterTotalPaginas(filtroProductViewModel filtro)
     {
-        var total = _service.ObterTotalRegistros(filtro) / filtro.QuantidadePorPagina;
-        if ((_service.ObterTotalRegistros(filtro) % filtro.QuantidadePorPagina) > 0)
+        var total = _service.ObterTotalRegistros(filtro) / filtro.QuantityPerPage;
+        if ((_service.ObterTotalRegistros(filtro) % filtro.QuantityPerPage) > 0)
             total += 1;
         return total.Equals(0) ? 1 : total;
     }
@@ -47,7 +47,7 @@ public class ProductController : ControllerBase
             return Ok(new { Resultado = "Registro não encontrado." });
 
         var resultado = new ApiResult<ProductViewModel>();
-        resultado.AddPaginacao(filtro.PaginaAtual, filtro.QuantidadePorPagina, ObterTotalPaginas(filtro), _service.ObterTotalRegistros(filtro), dadosRetorno);
+        resultado.AddPaginacao(filtro.ActualPage, filtro.QuantityPerPage, ObterTotalPaginas(filtro), _service.ObterTotalRegistros(filtro), dadosRetorno);
 
         return Ok(resultado);
     }

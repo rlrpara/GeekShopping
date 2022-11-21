@@ -13,17 +13,12 @@ public static class HttpClientExtensions
     #region [Public Methods]
     public static async Task<T> ReadContentAs<T>(this HttpResponseMessage response)
     {
-        if (response.IsSuccessStatusCode)
+        if (!response.IsSuccessStatusCode)
             throw new ApplicationException($"Something wrong calling in API: {response.ReasonPhrase}");
 
         var dataAsString = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
 
-        var jsonSerializeOptions = new JsonSerializerOptions
-        {
-            PropertyNameCaseInsensitive = true
-        };
-
-        return JsonSerializer.Deserialize<T>(dataAsString, jsonSerializeOptions);
+        return JsonSerializer.Deserialize<T>(dataAsString, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
     }
     public static async Task<HttpResponseMessage> PostAsJson<T>(this HttpClient httpClient, string url, T data)
     {
