@@ -38,8 +38,8 @@ public class ProductController : ControllerBase
     #endregion
 
     #region [Propriedades Públicas]
-    [HttpPost("ObterTodos")]
-    public IActionResult PostObterTodos([FromBody] filtroProductViewModel filtro)
+    [HttpPost("GetAll")]
+    public IActionResult PostGetAll([FromBody] filtroProductViewModel filtro)
     {
         var dadosRetorno = _service.ObterTodos(filtro).ToList();
 
@@ -52,8 +52,8 @@ public class ProductController : ControllerBase
         return Ok(resultado);
     }
 
-    [HttpPost("Inserir")]
-    public IActionResult PostInserir([FromBody] ProductViewModel model)
+    [HttpPost("Insert")]
+    public IActionResult PostInsert([FromBody] ProductViewModel model)
     {
         if (ModelState.IsValid)
         {
@@ -65,8 +65,8 @@ public class ProductController : ControllerBase
         return BadRequest(ModelState);
     }
 
-    [HttpPut("Atualizar")]
-    public IActionResult PutAtualizar([FromBody] ProductViewModel model)
+    [HttpPut("Update")]
+    public IActionResult PutUpdate([FromBody] ProductViewModel model)
     {
         if (ModelState.IsValid)
         {
@@ -85,8 +85,8 @@ public class ProductController : ControllerBase
         return BadRequest(ModelState);
     }
 
-    [HttpDelete("Excluir")]
-    public IActionResult DeleteExcluir(int Codigo)
+    [HttpDelete("Remove")]
+    public IActionResult DeleteRemove(int Codigo)
     {
         if (Codigo.Equals(0))
             return Ok(new { Resultado = "Registro não encontrado" });

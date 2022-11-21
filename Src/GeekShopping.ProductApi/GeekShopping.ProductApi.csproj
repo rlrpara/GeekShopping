@@ -12,6 +12,7 @@
     <PackageReference Include="AutoMapper" Version="12.0.0" />
     <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="12.0.0" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="6.0.11" />
+    <PackageReference Include="Microsoft.AspNetCore.Http.Abstractions" Version="2.2.0" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="6.0.11" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.4.0" />
   </ItemGroup>
@@ -20,6 +21,7 @@
     <ProjectReference Include="..\GeekShopping.Shared.Auth\GeekShopping.Shared.Auth.csproj" />
     <ProjectReference Include="..\GeekShopping.Shared.Database\GeekShopping.Shared.Database.csproj" />
     <ProjectReference Include="..\GeekShopping.Shared.Data\GeekShopping.Shared.Data.csproj" />
+    <ProjectReference Include="..\GeekShopping.Shared.Ioc\GeekShopping.Shared.Ioc.csproj" />
     <ProjectReference Include="..\GeekShopping.Shared.Services\GeekShopping.Shared.Services.csproj" />
   </ItemGroup>
 

@@ -1,5 +1,7 @@
 using GeekShopping.Shared.Auth;
 using GeekShopping.Shared.Database;
+using GeekShopping.Shared.Ioc;
+using GeekShopping.Shared.Services.AutoMapper;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
@@ -74,6 +76,10 @@ public class Program
         });
 
         new DatabaseConfiguration().GerenciarBanco();
+
+        NativeInjector.RegisterServices(builder.Services);
+
+        builder.Services.AddAutoMapper(typeof(AutoMapperSetup));
 
         var app = builder.Build();
 
