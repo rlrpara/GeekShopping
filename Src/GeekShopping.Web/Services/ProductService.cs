@@ -21,17 +21,10 @@ public class ProductService : IProductService
     #region [Public Methods]
     public async Task<IEnumerable<ProductModel>?> GetAll(filterProductModel filtro)
     {
-        try
-        {
-            var response = await _httpClient.PostAsJson($"{_basePath}/getall", filtro);
-            var result =  await response.ReadContentAs<ApiResult<ProductModel>>();
+        var response = await _httpClient.PostAsJson($"{_basePath}/getall", filtro);
+        var result = await response.ReadContentAs<ApiResult<ProductModel>>();
 
-            return result.Dados;
-        }
-        catch (Exception ex)
-        {
-            throw;
-        }
+        return result.dados;
     }
     public async Task<ProductModel> GetById(long codigo)
     {
@@ -40,7 +33,7 @@ public class ProductService : IProductService
     }
     public async Task<bool> Insert(ProductModel model)
     {
-        var response = await _httpClient.PostAsJson(_basePath, model);
+        var response = await _httpClient.PostAsJson($"{_basePath}/insert", model);
         return await response.ReadContentAs<bool>();
     }
     public async Task<bool> Update(ProductModel model)

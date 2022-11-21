@@ -1,4 +1,5 @@
-﻿using GeekShopping.Web.Models.filter;
+﻿using GeekShopping.Web.Models;
+using GeekShopping.Web.Models.filter;
 using GeekShopping.Web.Services.IServices;
 using Microsoft.AspNetCore.Mvc;
 
@@ -28,10 +29,25 @@ namespace GeekShopping.Web.Controllers
 
         #region [Public Methods]
         public async Task<IActionResult> ProductIndex() => View(await _productService.GetAll(GetFilterProduct()));
+        public async Task<IActionResult> ProductCreate() => View();
+        
+        [HttpPost]
+        public async Task<IActionResult> ProductCreate(ProductModel productModel)
+        {
+            if (ModelState.IsValid)
+            {
+                var response = await _productService.Insert(productModel);
+
+                if(response) return RedirectToAction(nameof(ProductIndex));
+
+            }
+
+            return View(productModel);
+        }
 
 
         #endregion
 
-        
+
     }
 }

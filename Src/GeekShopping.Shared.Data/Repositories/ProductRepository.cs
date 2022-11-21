@@ -15,8 +15,7 @@ namespace GeekShopping.Shared.Data.Repositories
         private string ObterFiltros(filtroProduct filtro)
         {
             var sqlPesquisa = new StringBuilder();
-
-            sqlPesquisa.AppendLine($" WHERE name like '%{filtro.Name}%'");
+            sqlPesquisa.AppendLine($" name ilike '%{filtro.Name}%'");
 
             return sqlPesquisa.ToString();
         }
@@ -48,7 +47,7 @@ namespace GeekShopping.Shared.Data.Repositories
             return await _baseRepository.BuscarPorQueryGeradorAsync<Product>(sqlPesquisa.ToString()) is not null;
         }
         public async Task<IEnumerable<Product>> ObterTodos(filtroProduct filtro)
-            => await _baseRepository.BuscarTodosPorQueryGeradorAsync<Product>($" WHERE name like '%{filtro.Name}%'");
+            => await _baseRepository.BuscarTodosPorQueryGeradorAsync<Product>(ObterFiltros(filtro));
         public async Task<bool> Atualizar(Product product) => await _baseRepository.AtualizarAsync((int)product.Codigo, product) > 0;
         public async Task<bool> Inserir(Product product) => await _baseRepository.AdicionarAsync(product) > 0;
 

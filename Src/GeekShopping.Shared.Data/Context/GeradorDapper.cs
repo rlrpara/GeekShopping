@@ -286,7 +286,7 @@ public class GeradorDapper : IGeradorDapper
 
         sqlPesquisa.AppendLine($"SELECT {ObterColunasSelect<T>()}");
         sqlPesquisa.AppendLine($"  FROM {ObterNomeTabela<T>()}");
-        sqlPesquisa.AppendLine($"{(string.IsNullOrWhiteSpace(sqlWhere?.Trim()) ? string.Empty : $"WHERE {sqlWhere}")}");
+        sqlPesquisa.AppendLine($"{(string.IsNullOrWhiteSpace(sqlWhere?.Trim()) ? string.Empty : $"WHERE {sqlWhere?.Trim()}")}");
 
         return sqlPesquisa?.ToString()?.Trim();
     }

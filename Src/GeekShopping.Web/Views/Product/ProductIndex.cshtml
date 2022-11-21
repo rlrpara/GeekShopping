@@ -31,7 +31,10 @@
                     <td>@item.Name</td>
                     <td>@item.CategoryName</td>
                     <td>@((item.Price).ToString("c"))</td>
-                    <td></td>
+                    <td>
+                        <a asp-action="ProductEdit" class="btn btn-success" asp-asp-route="@item.Codigo"><i class="fas fa-edit"></i></a>
+                        <a asp-action="ProductEdit" class="btn btn-danger" asp-asp-route="@item.Codigo"><i class="fas fa-trash"></i></a>
+                    </td>
                 </tr>
             }    
         }
