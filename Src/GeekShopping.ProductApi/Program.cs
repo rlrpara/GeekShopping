@@ -79,6 +79,8 @@ public class Program
 
         NativeInjector.RegisterServices(builder.Services);
 
+        builder.Services.AddSingleton(new AutoMapperSetup());
+
         builder.Services.AddAutoMapper(typeof(AutoMapperSetup));
 
         var app = builder.Build();
@@ -95,6 +97,8 @@ public class Program
         });
 
         app.UseRouting();
+
+        app.UseAuthentication();
 
         app.UseAuthorization();
 
